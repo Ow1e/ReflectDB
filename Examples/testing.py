@@ -2,7 +2,7 @@ from tqdm import tqdm
 from math import sin, pi
 import matplotlib.pyplot as plt
 from datetime import datetime
-from database import Database, Identity, String, Value
+from reflect.database import Database, Identity, String, Value
 
 db = Database("data.refldb", "data.refldc")
 db.create_all()
