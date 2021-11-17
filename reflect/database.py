@@ -48,6 +48,10 @@ class Database:
 
 
     def publish(self, content): # New Code, remember to use a seperate interger counter file
+        """
+        Publish dumped string, will also deal with Iterations and format data
+        Takes in dump method output
+        """
         content = content.replace(f"id:{self.id_keyword}", f"id:{self.future_id}")
         if not self.seperate:
             with open(self.path) as f:
@@ -71,6 +75,10 @@ class Database:
                 f.write(f"\n{content}")
 
     def refine(self, model_object, *args, **kwargs):
+        """
+        Checks model from input of variables
+        Returns method to go into dumps
+        """
         variables = []
         for i in dir(model_object):
             if not i.startswith("_"):
@@ -103,11 +111,14 @@ class Database:
 
         return out
     
-    def smart_publish(self, database, **kwargs):
-        self.publish(self.dumps(self.refine(database, )))
+    #def smart_publish(self, database, **kwargs):
+    #    self.publish(self.dumps(self.refine(database, )))
 
 
     def create_all(self):
+        """
+        Create refrenced database
+        """
         if not os.path.exists(self.path):
             if self.seperate:
                 start = ["!! ReflectDB !!\n", f"SEPERATE: {self.seperate}"]
@@ -118,6 +129,10 @@ class Database:
                 f.close()
 
     def dumps(self, object):
+        """
+        Dump data into format
+        Returns raw output for publishing
+        """
         prod = ""
         for i in object:
             prod += f"{i}:{object[i]}; "
@@ -125,6 +140,10 @@ class Database:
         return prod
 
     def loads(self, string : str):
+        """
+        Used for reading a file
+        Method used internally
+        """
         prod = {}
         identity = -1
         for i in string.split("; "):
@@ -136,6 +155,9 @@ class Database:
         return identity, prod
 
     def query(self):
+        """
+        Get all querys in a database
+        """
         with open(self.path) as f:
             ids = {}
             for i in f.read().split("\n")[2:]:
@@ -148,10 +170,17 @@ class Database:
         return ids
 
     def remove(self, id : int):
+        """
+        Remove Iteration
+        EXPERIMENTAL
+        """
         with open(self.path, "a") as f:
             f.write(f"\nREMOVE "+str(id))
 
     def save_trend_data(self, i, *args, **kwargs):
+        """
+        Save iteration data from trend function
+        """
         dump = f"id:{i}; "+self.dumps(kwargs)
         self.publish(dump)
 
