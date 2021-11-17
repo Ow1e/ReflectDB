@@ -102,7 +102,11 @@ class Database:
             raise ValueError("Missing Variable!")
 
         return out
-          
+    
+    def smart_publish(self, database, **kwargs):
+        self.publish(self.dumps(self.refine(database, )))
+
+
     def create_all(self):
         if not os.path.exists(self.path):
             if self.seperate:

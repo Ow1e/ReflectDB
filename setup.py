@@ -32,14 +32,15 @@ with tqdm(total=test_amount) as t:
 
 setup(
     name='reflectdb',
-    version='0.1.2',    
+    version='0.1.4',    
     description='Low Ram Database System',
     url='https://github.com/Ow1e/ReflectDB',
     author='Owen Shaule',
     author_email='ow1e3@protonmail.com',
     license='',
-    long_description_content_type="text/markdown",
-    long_description="",
+    keywords=["python", "database"],
+    long_description_content_type='ext/markdown',
+    long_description=LONG_DESCRIPTION,
     packages=['reflect'],
     install_requires=[],
 
