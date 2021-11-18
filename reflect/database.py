@@ -140,7 +140,9 @@ class Database:
         Create refrenced database
         """
         if not os.path.exists(self.path):
-            if self.seperate:
+            if self.experimental:
+                start = ["!! ReflectDB !!\n", "EXPERIMENTAL DATABASE"]
+            elif self.seperate:
                 start = ["!! ReflectDB !!\n", f"SEPERATE: {self.seperate}"]
             else:
                 start = ["!! ReflectDB !!\n", "ITERATIONS : -1"]
@@ -192,10 +194,12 @@ class Database:
     def remove(self, id : int):
         """
         Remove Iteration
-        EXPERIMENTAL
         """
-        with open(self.path, "a") as f:
-            f.write(f"\nREMOVE "+str(id))
+        if not self.experimental:
+            raise ValueError("Enable experimental first")
+        else:
+            with open(self.path, "a") as f:
+                f.write(f"\nREMOVE "+str(id))
 
     def save_trend_data(self, i, *args, **kwargs):
         """
