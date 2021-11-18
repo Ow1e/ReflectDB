@@ -3,5 +3,9 @@
 A fast storage based database solution 
 
 ## Benchmarks
-Experimental Mode Benchmarks
- - 5000 items a second on 2017 MacBook Flash Storage (Random Num (1, 100000), Date (Datetime.now), name (String128 CONSTANT), email(String128 CONSTANT))
+### Experimental Mode Benchmarks
+ - 9975 items a second on 2017 MacBook Flash Storage (Random Num (1, 100000), Date (Datetime.now), name (String128 CONSTANT), email(String128 CONSTANT))
+### Seperate Mode
+- 2769 items a second on 2017 MacBook Flash Storage (Random Num (1, 100000), Date (Datetime.now), name (String128 CONSTANT), email(String128 CONSTANT))
+### Bundled Mode 
+- 358 items a second on 2017 MacBook Flash Storage (Random Num (1, 100000), Date (Datetime.now), name (String128 CONSTANT), email(String128 CONSTANT))
