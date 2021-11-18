@@ -32,6 +32,11 @@ class Database:
     ]
     seperate = False
     def __init__(self, path : str, seperate = False):
+        """
+        Initializes Database
+        Use seperate to get non dynamic and faster speedz
+        Seperate is a seperate file containing the future integer, used for startup
+        """
         self.path = path
         self.seperate = seperate
         if os.path.exists(path) and not seperate:
