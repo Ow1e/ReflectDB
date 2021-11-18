@@ -39,7 +39,7 @@ setup(
     author_email='ow1e3@protonmail.com',
     license='',
     keywords=["python", "database"],
-    long_description_content_type='ext/markdown',
+    long_description_content_type='text/markdown',
     long_description=LONG_DESCRIPTION,
     packages=['reflect'],
     install_requires=[],
