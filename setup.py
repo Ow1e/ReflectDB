@@ -32,8 +32,8 @@ with tqdm(total=test_amount) as t:
 
 setup(
     name='reflectdb',
-    version='0.1.4',    
-    description='Low Ram Database System',
+    version='0.1.5',    
+    description='Low Ram Focused Database System in Python',
     url='https://github.com/Ow1e/ReflectDB',
     author='Owen Shaule',
     author_email='ow1e3@protonmail.com',
