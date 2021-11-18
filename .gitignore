@@ -7,3 +7,6 @@ dist
 data.reflb
 *.egg-info
 *.refl
+testing.py
+data.*
+database.*

@@ -30,54 +30,69 @@ class Database:
     COMMANDS = [
         "REMOVE"
     ]
+    experimental = False
     seperate = False
-    def __init__(self, path : str, seperate = False):
+    def __init__(self, path : str, seperate = False, experimental=False):
         """
-        Initializes Database
-        Use seperate to get non dynamic and faster speedz
-        Seperate is a seperate file containing the future integer, used for startup
+        Initializes Database.
+        Use seperate to get non dynamic and faster speed.
+        Seperate is a seperate file containing the future integer, used for startup.
+        Once enabling `experimental` speed should double, you cannot revert these changes built in. You cannot build a experimental database,
+        just change a prexisting one.
         """
         self.path = path
         self.seperate = seperate
-        if os.path.exists(path) and not seperate:
-            with open(self.path) as f:
-                self.future_id = int(f.read().split("\n")[1].split(" : ")[1])
-                f.close()
-        elif seperate:
-            if os.path.exists(seperate):
-                with open(seperate) as f:
-                    self.future_id = int(f.read())
-            else:
-                with open(seperate, "w") as f:
-                    f.write("0")
+        self.experimental = experimental
+        if not experimental:
+            if os.path.exists(path) and not seperate:
+                with open(self.path) as f:
+                    self.future_id = int(f.read().split("\n")[1].split(" : ")[1])
+                    f.close()
+            elif seperate:
+                if os.path.exists(seperate):
+                    with open(seperate) as f:
+                        self.future_id = int(f.read())
+                else:
+                    with open(seperate, "w") as f:
+                        f.write("0")
+        else:
+            try:
+                self.future_id = len(self.query())
+            except FileNotFoundError:
+                print("Create a database before writing")
 
 
-    def publish(self, content): # New Code, remember to use a seperate interger counter file
+    def publish(self, content):
         """
         Publish dumped string, will also deal with Iterations and format data
         Takes in dump method output
         """
         content = content.replace(f"id:{self.id_keyword}", f"id:{self.future_id}")
-        if not self.seperate:
-            with open(self.path) as f:
-                temp = f.readlines()
-                f.close()
-                temp[1] = "ITERATIONS : "+str(self.future_id + 1)+"\n"
-                self.future_id += 1
-                with open(self.path, "w") as w:
-                    w.writelines(temp)
-            with open(self.path, "a") as f:
-                f.write(f"\n{content}")
-        else:
-            with open(self.seperate) as f:
-                current = int(f.read())
-                new = current+1
-                f.close()
-                with open(self.seperate, "w") as l:
-                    l.write(str(new))
+        if not self.experimental:
+            if not self.seperate:
+                with open(self.path) as f:
+                    temp = f.readlines()
+                    f.close()
+                    temp[1] = "ITERATIONS : "+str(self.future_id + 1)+"\n"
                     self.future_id += 1
+                    with open(self.path, "w") as w:
+                        w.writelines(temp)
+                with open(self.path, "a") as f:
+                    f.write(f"\n{content}")
+            else:
+                with open(self.seperate) as f:
+                    current = int(f.read())
+                    new = current+1
+                    f.close()
+                    with open(self.seperate, "w") as l:
+                        l.write(str(new))
+                        self.future_id += 1
+                with open(self.path, "a") as f:
+                    f.write(f"\n{content}")
+        else:
             with open(self.path, "a") as f:
                 f.write(f"\n{content}")
+            self.future_id += 1
 
     def refine(self, model_object, *args, **kwargs):
         """
