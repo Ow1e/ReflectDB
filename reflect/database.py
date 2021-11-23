@@ -27,12 +27,15 @@ class Database:
     path = "database.refl"
     id_keyword = "AUTOFILL"
     future_id = 0
-    COMMANDS = [
-        "REMOVE"
+    BLACKLIST = [
+        ":",
+        ";",
+        id_keyword
     ]
+    cache = False
     experimental = False
     seperate = False
-    def __init__(self, path : str, seperate = False, experimental=False):
+    def __init__(self, path : str, seperate = False, experimental=False, cache=False):
         """
         Initializes Database.
         Use seperate to get non dynamic and faster speed.
@@ -208,10 +211,22 @@ class Database:
         dump = f"id:{i}; "+self.dumps(kwargs)
         self.publish(dump)
 
+    def screen_data(self, posted : str):
+        """
+        Checks if Data has illegal objects
+        """
+        for i in self.BLACKLIST:
+            if i in posted:
+                posted = posted.replace(i, "")
+        return posted
+
     def __repr__(self):
         return "ReflectDB Object"
 
     class Model:
+        """
+        Database Model
+        """
         # This is for a Model
         def __init__(self):
             print("Variables:")
@@ -225,6 +240,10 @@ class Database:
 
     # NEW TREND SYSTEM
     class Trend:
+        """
+        Trend System  
+        `experimental` flags are enforced
+        """
         iterations = int
         blacklist_dir = [
             "blacklist_dir",
