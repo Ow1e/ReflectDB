@@ -3,7 +3,7 @@ from datetime import datetime
 from random import randint
 from tqdm import tqdm
 
-db = Database("data.refldb", "data.refldc", experimental=False)
+db = Database("data.refldb", experimental=True)
 db.create_all()
 
 class Template(db.Model):
