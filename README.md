@@ -9,3 +9,21 @@ A fast storage based database solution
 - 2769 items a second on 2017 MacBook Flash Storage (Random Num (1, 100000), Date (Datetime.now), name (String128 CONSTANT), email(String128 CONSTANT))
 ### Bundled Mode 
 - 358 items a second on 2017 MacBook Flash Storage (Random Num (1, 100000), Date (Datetime.now), name (String128 CONSTANT), email(String128 CONSTANT))
+
+# Install
+## Using Pip
+```
+pip install reflect
+```
+## Install via setup
+```
+git clone https://github.com/Ow1e/ReflectDB
+cd ReflectDB
+python3 setup.py install
+```
+## Using Twine and PIP
+(For contributers only)
+```
+python3 setup.py bdist_wheel 
+twine upload dist/* 
+```
