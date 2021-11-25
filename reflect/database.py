@@ -33,8 +33,10 @@ class Database:
         id_keyword
     ]
     cache = False
+    cached = {}
     experimental = False
     seperate = False
+    retreat = 2
     def __init__(self, path : str, seperate = False, experimental=False, cache=False):
         """
         Initializes Database.
@@ -162,6 +164,7 @@ class Database:
         for i in object:
             prod += f"{i}:{object[i]}; "
         prod = prod.removesuffix(", ")
+        prod = self.screen_data(prod)
         return prod
 
     def loads(self, string : str):
@@ -185,7 +188,8 @@ class Database:
         """
         with open(self.path) as f:
             ids = {}
-            for i in f.read().split("\n")[2:]:
+            data = f.read()
+            for i in data.split("\n")[2:]:
                 if i.startswith("REMOVE"):
                     data = i.split()
                     ids[int(data[1])] = {}
