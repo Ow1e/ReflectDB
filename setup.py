@@ -1,6 +1,7 @@
 from setuptools import setup
 
 LONG_DESCRIPTION = """
+## NOTE: Update ReflectDB as there is a major bug in it
 # Reflect
 A low level RAM free Database System
 
@@ -32,7 +33,7 @@ with tqdm(total=test_amount) as t:
 
 setup(
     name='reflectdb',
-    version='0.1.8',    
+    version='0.1.9',    
     description='Low Ram Focused Database System in Python',
     url='https://github.com/Ow1e/ReflectDB',
     author='Owen Shaule',

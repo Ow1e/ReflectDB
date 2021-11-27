@@ -160,7 +160,10 @@ class Database:
         """
         prod = ""
         for i in object:
-            prod += f"{i}:{object[i]}; "
+            if i != "id":
+                prod += f"{i}:{self.screen_data(str(object[i]))}; "
+            else:
+                prod += f"{i}:{object[i]}; "
         prod = prod.removesuffix(", ")
         return prod
 
@@ -217,8 +220,7 @@ class Database:
         Checks if Data has illegal objects
         """
         for i in self.BLACKLIST:
-            if i in posted:
-                posted = posted.replace(i, "")
+            posted = posted.replace(i, "")
         return posted
 
     def __repr__(self):
