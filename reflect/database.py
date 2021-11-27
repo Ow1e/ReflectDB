@@ -32,32 +32,32 @@ class Database:
         ";",
         id_keyword
     ]
-    experimental = False
     seperate = False
     retreat = 2
-    def __init__(self, path : str, seperate = False, experimental=False):
+    def __init__(self, path : str, seperate = False, legacy=False, experimental=True):
         """
         Initializes Database.
         Use seperate to get non dynamic and faster speed.
         Seperate is a seperate file containing the future integer, used for startup.
-        Once enabling `experimental` speed should double, you cannot revert these changes built in. You cannot build a experimental database,
-        just change a prexisting one.
         """
         self.path = path
         self.seperate = seperate
+        self.legacy = legacy
         self.experimental = experimental
-        if not experimental:
+        if legacy:
             if os.path.exists(path) and not seperate:
                 with open(self.path) as f:
                     self.future_id = int(f.read().split("\n")[1].split(" : ")[1])
                     f.close()
-            elif seperate:
-                if os.path.exists(seperate):
-                    with open(seperate) as f:
-                        self.future_id = int(f.read())
-                else:
-                    with open(seperate, "w") as f:
-                        f.write("0")
+
+        elif seperate:
+            if os.path.exists(seperate):
+                with open(seperate) as f:
+                    self.future_id = int(f.read())
+            else:
+                with open(seperate, "w") as f:
+                    f.write("0")
+
         else:
             try:
                 self.future_id = len(self.query())
@@ -71,27 +71,26 @@ class Database:
         Takes in dump method output
         """
         content = content.replace(f"id:{self.id_keyword}", f"id:{self.future_id}")
-        if not self.experimental:
-            if not self.seperate:
-                with open(self.path) as f:
-                    temp = f.readlines()
-                    f.close()
-                    temp[1] = "ITERATIONS : "+str(self.future_id + 1)+"\n"
+        if self.legacy:
+            with open(self.path) as f:
+                temp = f.readlines()
+                f.close()
+                temp[1] = "ITERATIONS : "+str(self.future_id + 1)+"\n"
+                self.future_id += 1
+                with open(self.path, "w") as w:
+                    w.writelines(temp)
+            with open(self.path, "a") as f:
+                f.write(f"\n{content}")
+        elif self.seperate:
+            with open(self.seperate) as f:
+                current = int(f.read())
+                new = current+1
+                f.close()
+                with open(self.seperate, "w") as l:
+                    l.write(str(new))
                     self.future_id += 1
-                    with open(self.path, "w") as w:
-                        w.writelines(temp)
-                with open(self.path, "a") as f:
-                    f.write(f"\n{content}")
-            else:
-                with open(self.seperate) as f:
-                    current = int(f.read())
-                    new = current+1
-                    f.close()
-                    with open(self.seperate, "w") as l:
-                        l.write(str(new))
-                        self.future_id += 1
-                with open(self.path, "a") as f:
-                    f.write(f"\n{content}")
+            with open(self.path, "a") as f:
+                f.write(f"\n{content}")
         else:
             with open(self.path, "a") as f:
                 f.write(f"\n{content}")
@@ -143,12 +142,12 @@ class Database:
         Create refrenced database
         """
         if not os.path.exists(self.path):
-            if self.experimental:
-                start = ["!! ReflectDB !!\n", "EXPERIMENTAL DATABASE"]
-            elif self.seperate:
+            if self.seperate:
                 start = ["!! ReflectDB !!\n", f"SEPERATE: {self.seperate}"]
-            else:
+            elif self.legacy:
                 start = ["!! ReflectDB !!\n", "ITERATIONS : -1"]
+            else:
+                start = ["!! ReflectDB !!\n", "SCAN DATABASE >>> ALL"]
             with open(self.path, "w") as f:
                 f.writelines(start)
                 f.close()
@@ -202,11 +201,8 @@ class Database:
         """
         Remove Iteration
         """
-        if not self.experimental:
-            raise ValueError("Enable experimental first")
-        else:
-            with open(self.path, "a") as f:
-                f.write(f"\nREMOVE "+str(id))
+        with open(self.path, "a") as f:
+            f.write(f"\nREMOVE "+str(id))
 
     def save_trend_data(self, i, *args, **kwargs):
         """
