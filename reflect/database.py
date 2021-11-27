@@ -32,12 +32,10 @@ class Database:
         ";",
         id_keyword
     ]
-    cache = False
-    cached = {}
     experimental = False
     seperate = False
     retreat = 2
-    def __init__(self, path : str, seperate = False, experimental=False, cache=False):
+    def __init__(self, path : str, seperate = False, experimental=False):
         """
         Initializes Database.
         Use seperate to get non dynamic and faster speed.
@@ -164,7 +162,6 @@ class Database:
         for i in object:
             prod += f"{i}:{object[i]}; "
         prod = prod.removesuffix(", ")
-        prod = self.screen_data(prod)
         return prod
 
     def loads(self, string : str):

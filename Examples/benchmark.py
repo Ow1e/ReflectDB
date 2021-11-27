@@ -14,7 +14,8 @@ class Template(db.Model):
     random = Value(15)
 
 def generate():
-    return db.dumps(db.refine(Template, name="Owen Shaule", email="ow1e3@protonmail.com", time=datetime.now(), random=randint(1, 100000)))
+    var_lib = db.refine(Template, name="Owen Shaule", email="ow1e3@protonmail.com", time=datetime.now(), random=randint(1, 100000))
+    return db.dumps(var_lib)
 
 values = []
 
@@ -25,3 +26,7 @@ for i in range(value):
 
 for i in tqdm(values, desc="Submiting Values"):
     db.publish(i)
+
+with tqdm(desc="Reading Values") as t:
+    db.query()
+    t.update(value)
