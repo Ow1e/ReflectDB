@@ -96,7 +96,7 @@ class Database:
                 f.write(f"\n{content}")
             self.future_id += 1
 
-    def refine(self, model_object, *args, **kwargs):
+    def refine(self, model_object, subbase = None, *args, **kwargs):
         """
         Checks model from input of variables
         Returns method to go into dumps
@@ -111,6 +111,7 @@ class Database:
             values[i] = (getattr(model_object, i))
 
         out = {}
+
         try:
             for i in values:
                 if values[i]["code"] == 0:
@@ -131,10 +132,12 @@ class Database:
         if len(out) != len(values):
             raise ValueError("Missing Variable!")
 
+        if subbase != None:
+            out["subbase"] = subbase.name
+        else:
+            out["subbase"] = "origin"
+
         return out
-    
-    #def smart_publish(self, database, **kwargs):
-    #    self.publish(self.dumps(self.refine(database, )))
 
 
     def create_all(self):
@@ -259,3 +262,8 @@ class Database:
                         self.iterations = l
                         attribute()
                         
+
+class SubBase:
+    name = "origin"
+    def __init__(self, name):
+        self.name = name
