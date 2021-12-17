@@ -13,7 +13,7 @@ A fast storage based database solution
 # Install
 ## Using Pip
 ```
-pip install reflect
+pip install reflectdb
 ```
 ## Install via setup
 ```
@@ -21,7 +21,7 @@ git clone https://github.com/Ow1e/ReflectDB
 cd ReflectDB
 python3 setup.py install
 ```
-## Using Twine and PIP
+## Upload to PyPi
 (For contributers only)
 ```
 python3 setup.py bdist_wheel 
