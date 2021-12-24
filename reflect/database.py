@@ -200,6 +200,21 @@ class Database:
                     ids[identity] = add
         return ids
 
+    def subbase_sort(self, database):
+        """
+        Internal command called by query for sorting
+        """
+        product = {}
+        for i in database:
+            if database[i]["subbase"] == "origin":
+                product[i] = database[i]
+            else:
+                if not product.__contains__(database[i]["subbase"]):
+                    product[database[i]["subbase"]] = {}
+                product[database[i]["subbase"]][i] = database[i]
+        return product
+
+
     def remove(self, id : int):
         """
         Remove Iteration
