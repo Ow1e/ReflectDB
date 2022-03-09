@@ -1,4 +1,5 @@
 # ReflectDB   
+## NOTE: DONT USE THIS, USE [SAILDB](https://github.com/Ow1e/SailDB) INSTEAD
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/reflectdb?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/reflectdb?style=flat-square) ![PyPI - Implementation](https://img.shields.io/pypi/implementation/reflectdb?style=flat-square) [![GitHub license](https://img.shields.io/github/license/Ow1e/ReflectDB?style=flat-square)](https://github.com/Ow1e/ReflectDB/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/Ow1e/ReflectDB?style=flat-square)](https://github.com/Ow1e/ReflectDB/issues)  
 A fast storage based database solution 
 
